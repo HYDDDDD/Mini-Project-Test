@@ -1,6 +1,55 @@
+import { useState } from "react";
+import axios from "axios";
 import "./App.css";
 
 function App() {
+  const [customer, setCustomer] = useState({
+    fullName: "",
+    dormName: "",
+    room: "",
+    details: "",
+  });
+  // const [image, setImage] = useState(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (handleValidation() === true) {
+      console.log("YAp");
+      let url = "http://localhost:8080/report/";
+
+      axios
+        .post(url, customer)
+        .then(() => {
+          setCustomer({
+            fullName: "",
+            dormName: "",
+            room: "",
+            details: "",
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const handleValidation = () => {
+    if (customer.fullName === "") {
+      alert("กรุณากรอกชื่อของคุณ.");
+      return false;
+    } else if (customer.dormName === "") {
+      alert("กรุณากรอกชื่อหอพัก.");
+      return false;
+    } else if (customer.room === "") {
+      alert("กรุณากรอกห้องพัก.");
+      return false;
+    } else if (customer.details === "") {
+      alert("กรุณาแจ้งรายละเอียดปัญหา.");
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-md mb-5">
@@ -54,15 +103,36 @@ function App() {
 
               <span>ชื่อ-นามสกุล</span>
               <br />
-              <input type="text" className="d-block my-2" />
+              <input
+                type="text"
+                className="d-block my-2"
+                value={customer.fullName}
+                onChange={(event) => {
+                  setCustomer({ ...customer, fullName: event.target.value });
+                }}
+              />
 
               <span>หอพัก</span>
               <br />
-              <input type="text" className="d-block my-2" />
+              <input
+                type="text"
+                className="d-block my-2"
+                value={customer.dormName}
+                onChange={(event) => {
+                  setCustomer({ ...customer, dormName: event.target.value });
+                }}
+              />
 
               <span>ห้องพัก</span>
               <br />
-              <input type="text" className="d-block my-2" />
+              <input
+                type="text"
+                className="d-block my-2"
+                value={customer.room}
+                onChange={(event) => {
+                  setCustomer({ ...customer, room: event.target.value });
+                }}
+              />
 
               <span>รูปภาพสิ่งของชำรุด</span>
               <br />
@@ -70,9 +140,25 @@ function App() {
 
               <span>แจ้งรายละเอียดปัญหา</span>
               <br />
-              <textarea name="" id="" cols="75" rows="5"></textarea>
+              <textarea
+                name=""
+                id=""
+                cols="75"
+                rows="5"
+                value={customer.details}
+                onChange={(event) => {
+                  setCustomer({ ...customer, details: event.target.value });
+                }}
+                onKeyPress={(event) => {
+                  event.key === "Enter" && handleSubmit();
+                }}
+              ></textarea>
 
-              <button type="button" className="btn btn-primary">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
                 ยืนยัน
               </button>
             </form>
