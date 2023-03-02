@@ -15,7 +15,6 @@ function App() {
     event.preventDefault();
 
     if (handleValidation() === true) {
-      console.log("YAp");
       let url = "http://localhost:8080/report/";
 
       axios
