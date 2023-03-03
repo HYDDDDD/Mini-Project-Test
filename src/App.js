@@ -105,9 +105,16 @@ function App() {
               <input
                 type="text"
                 className="d-block my-2"
+                maxLength="25"
                 value={customer.fullName}
                 onChange={(event) => {
-                  setCustomer({ ...customer, fullName: event.target.value });
+                  let regex = /^[a-zA-Zก-๏\s]+$/;
+                  if (
+                    event.target.value === "" ||
+                    regex.test(event.target.value)
+                  ) {
+                    setCustomer({ ...customer, fullName: event.target.value });
+                  }
                 }}
               />
 
@@ -116,9 +123,16 @@ function App() {
               <input
                 type="text"
                 className="d-block my-2"
+                maxLength="15"
                 value={customer.dormName}
                 onChange={(event) => {
-                  setCustomer({ ...customer, dormName: event.target.value });
+                  let regex = /^[a-zA-Zก-๏\s]+$/;
+                  if (
+                    event.target.value === "" ||
+                    regex.test(event.target.value)
+                  ) {
+                    setCustomer({ ...customer, dormName: event.target.value });
+                  }
                 }}
               />
 
@@ -127,9 +141,16 @@ function App() {
               <input
                 type="text"
                 className="d-block my-2"
+                maxLength="3"
                 value={customer.room}
                 onChange={(event) => {
-                  setCustomer({ ...customer, room: event.target.value });
+                  let regex = /^[0-9\b]+$/;
+                  if (
+                    event.target.value === "" ||
+                    regex.test(event.target.value)
+                  ) {
+                    setCustomer({ ...customer, room: event.target.value });
+                  }
                 }}
               />
 
@@ -146,7 +167,13 @@ function App() {
                 rows="5"
                 value={customer.details}
                 onChange={(event) => {
-                  setCustomer({ ...customer, details: event.target.value });
+                  let regex = /^[a-zA-Zก-๏\s]+$/;
+                  if (
+                    event.target.value === "" ||
+                    regex.test(event.target.value)
+                  ) {
+                    setCustomer({ ...customer, details: event.target.value });
+                  }
                 }}
                 onKeyPress={(event) => {
                   event.key === "Enter" && handleSubmit();
