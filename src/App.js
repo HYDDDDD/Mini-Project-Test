@@ -126,7 +126,7 @@ function App() {
                 maxLength="15"
                 value={customer.dormName}
                 onChange={(event) => {
-                  let regex = /^[a-zA-Zก-๏\s]+$/;
+                  let regex = /^[a-zA-Zก-๏0-9\s]+$/;
                   if (
                     event.target.value === "" ||
                     regex.test(event.target.value)
@@ -167,13 +167,7 @@ function App() {
                 rows="5"
                 value={customer.details}
                 onChange={(event) => {
-                  let regex = /^[a-zA-Zก-๏\s]+$/;
-                  if (
-                    event.target.value === "" ||
-                    regex.test(event.target.value)
-                  ) {
-                    setCustomer({ ...customer, details: event.target.value });
-                  }
+                  setCustomer({ ...customer, details: event.target.value });
                 }}
                 onKeyPress={(event) => {
                   event.key === "Enter" && handleSubmit();
