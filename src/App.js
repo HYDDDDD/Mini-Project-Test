@@ -4,50 +4,64 @@ import "./App.css";
 
 function App() {
   const [customer, setCustomer] = useState({
-    fullName: "",
+    name: "",
     dormName: "",
     room: "",
     details: "",
   });
-  // const [image, setImage] = useState(null);
+  const [image, setImage] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (handleValidation() === true) {
-      let url = "http://localhost:8080/report/";
+    try {
+      const newReport = {
+        report: {
+          name: customer.name,
+          dormName: customer.dormName,
+          room: customer.room,
+          details: customer.details,
+        },
+        image: image,
+      };
 
-      axios
-        .post(url, customer)
-        .then(() => {
-          setCustomer({
-            fullName: "",
-            dormName: "",
-            room: "",
-            details: "",
-          });
-        })
-        .catch((err) => console.log(err));
-    }
-  };
+      const formData = new FormData();
+      formData.append('report', JSON.stringify(newReport.report));
+      formData.append('image', newReport.image);
 
-  const handleValidation = () => {
-    if (customer.fullName === "") {
-      alert("กรุณากรอกชื่อของคุณ.");
-      return false;
-    } else if (customer.dormName === "") {
-      alert("กรุณากรอกชื่อหอพัก.");
-      return false;
-    } else if (customer.room === "") {
-      alert("กรุณากรอกห้องพัก.");
-      return false;
-    } else if (customer.details === "") {
-      alert("กรุณาแจ้งรายละเอียดปัญหา.");
-      return false;
+      const response = await axios.post(
+        `http://localhost:8080/report`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
     }
 
-    return true;
   };
+
+  // const handleValidation = () => {
+  //   if (customer.name === "") {
+  //     alert("กรุณากรอกชื่อของคุณ.");
+  //     return false;
+  //   } else if (customer.dormName === "") {
+  //     alert("กรุณากรอกชื่อหอพัก.");
+  //     return false;
+  //   } else if (customer.room === "") {
+  //     alert("กรุณากรอกห้องพัก.");
+  //     return false;
+  //   } else if (customer.details === "") {
+  //     alert("กรุณาแจ้งรายละเอียดปัญหา.");
+  //     return false;
+  //   }
+
+  //   return true;
+  // };
 
   return (
     <div>
@@ -57,7 +71,7 @@ function App() {
             src="https://upload.wikimedia.org/wikipedia/th/thumb/0/00/University_of_Phayao_Logo.svg/1200px-University_of_Phayao_Logo.svg.png"
             alt="Logo"
             width={50}
-            class="d-inline-block align-text-top"
+            className="d-inline-block align-text-top"
           />
           <p className="text-center text-light fw-bold me-auto mb-2 mb-lg-1">
             มหาวิทยาลัยพะเยา <br /> University of Phayao
@@ -101,7 +115,7 @@ function App() {
           </div>
 
           <div className="c2 col">
-            <form action="">
+            <form onSubmit={handleSubmit}>
               <p className="bordertext fs-4 fw-bold text-center ">แจ้งปัญหา</p>
 
               <span>ชื่อ-นามสกุล</span>
@@ -110,16 +124,18 @@ function App() {
                 type="text"
                 className="d-block my-2 rounded-pill"
                 maxLength="25"
-                value={customer.fullName}
+                value={customer.name}
                 onChange={(event) => {
                   let regex = /^[a-zA-Zก-๏\s]+$/;
                   if (
                     event.target.value === "" ||
                     regex.test(event.target.value)
                   ) {
-                    setCustomer({ ...customer, fullName: event.target.value });
+                    setCustomer({ ...customer, name: event.target.value });
                   }
-                }}
+                }
+              }
+              required
               />
 
               <span>หอพัก</span>
@@ -138,6 +154,7 @@ function App() {
                     setCustomer({ ...customer, dormName: event.target.value });
                   }
                 }}
+                required
               />
 
               <span>ห้องพัก</span>
@@ -156,16 +173,21 @@ function App() {
                     setCustomer({ ...customer, room: event.target.value });
                   }
                 }}
+                required
               />
 
               <span>รูปภาพสิ่งของชำรุด</span>
               <br />
-              <input  type="file" className="b1 d-block my-2 rounded " />
+              <input type="file" className="b1 d-block my-2 rounded "
+                onChange={(event) => {
+                  setImage(event.target.files[0]);
+                }} 
+                required/>
 
               <span>แจ้งรายละเอียดปัญหา</span>
               <br />
               <textarea
-              className="rounded"
+                className="rounded"
                 name=""
                 id=""
                 cols="75"
@@ -174,16 +196,12 @@ function App() {
                 onChange={(event) => {
                   setCustomer({ ...customer, details: event.target.value });
                 }}
-                onKeyPress={(event) => {
-                  event.key === "Enter" && handleSubmit();
-                }}
+                required
               ></textarea>
-              <br/>
-
+              <br />
               <button
-                type="button"
+                type="submit"
                 className="btn btn-light"
-                onClick={handleSubmit}
               >
                 ยืนยัน
               </button>
