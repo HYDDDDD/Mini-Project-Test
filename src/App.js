@@ -54,25 +54,29 @@ function App() {
       <nav className="navbar navbar-expand-md mb-5">
         <div className="container-fluid">
           <img
-            className="navbar-brand"
-            src="https://www.up.ac.th/th/images/%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B8%9E%E0%B8%B0%E0%B9%80%E0%B8%A2%E0%B8%B2.png"
-            alt="logo"
+            src="https://upload.wikimedia.org/wikipedia/th/thumb/0/00/University_of_Phayao_Logo.svg/1200px-University_of_Phayao_Logo.svg.png"
+            alt="Logo"
+            width={50}
+            class="d-inline-block align-text-top"
           />
-          <form className="d-flex" role="search">
+          <p className="text-center text-light fw-bold me-auto mb-2 mb-lg-1">
+            มหาวิทยาลัยพะเยา <br /> University of Phayao
+          </p>
+          <form className="d-flex " role="search">
             <input
-              className="form-control me-2"
+              className="form-control me-2 rounded-pill"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
-            <button className="btn btn-outline-success" type="submit">
+            <button className="btn btn-outline-light fw-bold rounded-pill" type="submit">
               Search
             </button>
           </form>
         </div>
       </nav>
 
-      <div className="container">
+      <div className="c1 container">
         <div className="row">
           <div className="flex-shrink-0 p-3" style={{ width: "280px" }}>
             <svg
@@ -96,15 +100,15 @@ function App() {
             </button>
           </div>
 
-          <div className="col">
+          <div className="c2 col">
             <form action="">
-              <p className="fs-4 fw-bold">แจ้งปัญหา</p>
+              <p className="bordertext fs-4 fw-bold text-center ">แจ้งปัญหา</p>
 
               <span>ชื่อ-นามสกุล</span>
               <br />
               <input
                 type="text"
-                className="d-block my-2"
+                className="d-block my-2 rounded-pill"
                 maxLength="25"
                 value={customer.fullName}
                 onChange={(event) => {
@@ -122,7 +126,7 @@ function App() {
               <br />
               <input
                 type="text"
-                className="d-block my-2"
+                className="d-block my-2 rounded-pill"
                 maxLength="15"
                 value={customer.dormName}
                 onChange={(event) => {
@@ -140,7 +144,7 @@ function App() {
               <br />
               <input
                 type="text"
-                className="d-block my-2"
+                className="d-block my-2 rounded-pill "
                 maxLength="3"
                 value={customer.room}
                 onChange={(event) => {
@@ -156,11 +160,12 @@ function App() {
 
               <span>รูปภาพสิ่งของชำรุด</span>
               <br />
-              <input type="file" className="d-block my-2" />
+              <input  type="file" className="b1 d-block my-2 rounded " />
 
               <span>แจ้งรายละเอียดปัญหา</span>
               <br />
               <textarea
+              className="rounded"
                 name=""
                 id=""
                 cols="75"
@@ -173,10 +178,11 @@ function App() {
                   event.key === "Enter" && handleSubmit();
                 }}
               ></textarea>
+              <br/>
 
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-light"
                 onClick={handleSubmit}
               >
                 ยืนยัน
