@@ -1,52 +1,21 @@
 import { useState } from "react";
 import axios from "axios";
 import "./App.css";
+import { onSubmitService } from "./service";
+import {handleValidation} from "./controller"
 
 function App() {
-  const [customer, setCustomer] = useState({
-    fullName: "",
-    dormName: "",
-    room: "",
-    details: "",
-  });
+  const [customer, setCustomer] = useState({});
   // const [image, setImage] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (handleValidation() === true) {
+    if (handleValidation(customer) === true) {
       let url = "http://localhost:8080/report/";
-
-      axios
-        .post(url, customer)
-        .then(() => {
-          setCustomer({
-            fullName: "",
-            dormName: "",
-            room: "",
-            details: "",
-          });
-        })
-        .catch((err) => console.log(err));
+      await onSubmitService(url, customer);
+      setCustomer({});
     }
-  };
-
-  const handleValidation = () => {
-    if (customer.fullName === "") {
-      alert("กรุณากรอกชื่อของคุณ.");
-      return false;
-    } else if (customer.dormName === "") {
-      alert("กรุณากรอกชื่อหอพัก.");
-      return false;
-    } else if (customer.room === "") {
-      alert("กรุณากรอกห้องพัก.");
-      return false;
-    } else if (customer.details === "") {
-      alert("กรุณาแจ้งรายละเอียดปัญหา.");
-      return false;
-    }
-
-    return true;
   };
 
   return (
